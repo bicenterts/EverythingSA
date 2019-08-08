@@ -15,16 +15,24 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class AddEvent extends AppCompatActivity {
+public class Event extends AppCompatActivity {
+
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+    EditText eventTitle;
+    EditText eventEntranceFee;
+    EditText eventDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
+        setContentView(R.layout.activity_event);
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("Events");
-        eventTitle = (EditText) findViewById(R.id.eventTitle);
+        FirebaseUtil.openFbReference("Events");
+        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
+        mDatabaseReference = FirebaseUtil.mDatabaseReference;
+
+        eventTitle = (EditText) findViewById(R.id.Events);
         eventEntranceFee = (EditText) findViewById(R.id.eventEntranceFee);
         eventDescription = (EditText) findViewById(R.id.eventDescription);
 
@@ -32,11 +40,7 @@ public class AddEvent extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    EditText eventTitle;
-    EditText eventEntranceFee;
-    EditText eventDescription;
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

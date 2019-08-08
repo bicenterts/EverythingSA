@@ -35,7 +35,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Event td = dataSnapshot.getValue(Event.class);
-                Log.d("Event: ", td.getTitle());
+                Log.d("Event: ", td.getTitle();
                 td.setId(dataSnapshot.getKey());
                 events.add(td);
                 notifyItemInserted(events.size()-1);

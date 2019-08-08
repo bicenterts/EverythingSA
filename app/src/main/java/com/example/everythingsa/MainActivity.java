@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAddEvent() {
-        Intent intent = new Intent(this, AddEvent.class);
+        Intent intent = new Intent(this, Event.class);
         startActivity(intent);
     }
 
