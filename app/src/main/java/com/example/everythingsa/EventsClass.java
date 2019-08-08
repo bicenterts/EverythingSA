@@ -1,17 +1,21 @@
 package com.example.everythingsa;
 
-public class EventsClass {
+import java.io.Serializable;
+
+public class EventsClass implements Serializable {
     private String id;
     private String title;
     private String description;
-    private String price;
+    private String fee;
     private String imageUrl;
 
-    public EventsClass(String title, String description, String price, String imageUrl) {
+    public EventsClass() {};
+
+    public EventsClass(String title, String description, String fee, String imageUrl) {
         this.setId(id);
         this.setTitle(title);
         this.setDescription(description);
-        this.setPrice(price);
+        this.setFee(fee);
         this.setImageUrl(imageUrl);
     }
 
@@ -39,12 +43,12 @@ public class EventsClass {
         this.description = description;
     }
 
-    public String getPrice() {
-        return price;
+    public String getFee() {
+        return fee;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setFee(String fee) {
+        this.fee = fee;
     }
 
     public String getImageUrl() {

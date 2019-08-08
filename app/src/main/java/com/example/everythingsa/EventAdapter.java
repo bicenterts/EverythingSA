@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder>{
+
     ArrayList<Event> events;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -34,10 +35,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         mChildListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Event td = dataSnapshot.getValue(Event.class);
-                Log.d("Event: ", td.getTitle();
-                td.setId(dataSnapshot.getKey());
-                events.add(td);
+                Event td = dataSnapshot.getValue(EventsClass.class);
+                Log.d("Event", td.getTitle());
                 notifyItemInserted(events.size()-1);
             }
 
@@ -64,53 +63,33 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         mDatabaseReference.addChildEventListener(mChildListener);
     }
 
-
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        View itemView = LayoutInflater.from(context)
-                .inflate(R.layout.event_row, parent, false);
-        return new EventViewHolder(itemView);
+        return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-        Event event = events.get(position);
-        holder.bind(event);
+
     }
 
     @Override
-    public int getItemCount() { return events.size(); }
+    public int getItemCount() {
+        return 0;
+    }
 
-    public class EventViewHolder extends RecyclerView.ViewHolder
-        implements View.OnClickListener {
+    public class EventViewHolder extends RecyclerView.ViewHolder {
         TextView eventTitle;
-//        TextView eventDescription;
-//        TextView eventEntranceFee;
-
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTitle = (TextView) itemView.findViewById(R.id.eventTitle);
-//            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
-//            eventEntranceFee = (TextView) itemView.findViewById(R.id.eventEntranceFee);
-            itemView.setOnClickListener(this);
         }
 
         public void bind(Event event) {
             eventTitle.setText(event.getTitle());
-//            eventDescription.setText(event.getDescription());
-//            eventEntranceFee.setText(event.getPrice());
-        }
-
-        @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            Log.d("Click", String.valueOf(position));
-//            Event selectedEvent = events.get(position);
-//            Intent intent = new Intent(view.getContext(), Event.class);
-//            intent.putExtra("Event", selectedEvent);
-//            view.getContext().startActivity(intent);
         }
     }
+
+
 }

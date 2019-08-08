@@ -1,5 +1,6 @@
 package com.example.everythingsa;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +23,7 @@ public class Event extends AppCompatActivity {
     EditText eventTitle;
     EditText eventEntranceFee;
     EditText eventDescription;
+    Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,19 @@ public class Event extends AppCompatActivity {
         mDatabaseReference = FirebaseUtil.mDatabaseReference;
 
         eventTitle = (EditText) findViewById(R.id.Events);
-        eventEntranceFee = (EditText) findViewById(R.id.eventEntranceFee);
         eventDescription = (EditText) findViewById(R.id.eventDescription);
+        eventEntranceFee = (EditText) findViewById(R.id.eventEntranceFee);
+
+        Intent intent = getIntent();
+        Event event = (Event) intent.getSerializableExtra("Event");
+        if (event==null) {
+            event = new Event();
+        }
+        this.event = event;
+
+        eventTitle.setText(event.getTitle());
+        eventDescription.setText(event.getDescription());
+        eventEntranceFee.setText(event.getEntranceFee());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,10 +70,11 @@ public class Event extends AppCompatActivity {
     }
 
     public void saveEvent() {
-        String title = eventTitle.getText().toString();
-        String description = eventDescription.getText().toString();
-        String price = eventEntranceFee.getText().toString();
-        EventsClass event = new EventsClass(title, description, price, "");
+        event.setTitle(eventTitle.getText().toString());
+        event.setDescription(eventDescription.getText().toString());
+        event.setEntranceFee(eventEntranceFee.getText().toString());
+
+        EventsClass event = new EventsClass(title, description, fee, "");
         mDatabaseReference.push().setValue(event);
     }
 
