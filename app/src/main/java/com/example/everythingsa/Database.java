@@ -5,21 +5,20 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class FirebaseUtil {
+public class Database {
     public static FirebaseDatabase mFirebaseDatabase;
     public static DatabaseReference mDatabaseReference;
-    private static FirebaseUtil firebaseUtil;
-    public static ArrayList<Event> mEvents;
+    private static Database database;
+    public static ArrayList<Event> esaEvents;
 
-    private FirebaseUtil() {};
+    private Database() {}
 
-    public static void openFbReference(String ref) {
-        if (firebaseUtil == null) {
-            firebaseUtil = new FirebaseUtil();
+    public static void openDbReference(String ref) {
+        if(database==null) {
+            database = new Database();
             mFirebaseDatabase = FirebaseDatabase.getInstance();
-            mEvents = new ArrayList<Event>();
+            esaEvents = new ArrayList<Event>();
         }
-
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
     }
 }

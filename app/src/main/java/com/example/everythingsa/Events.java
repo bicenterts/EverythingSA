@@ -1,5 +1,6 @@
 package com.example.everythingsa;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,6 +18,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,13 +39,30 @@ public class Events extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView Events = (RecyclerView) findViewById(R.id.Events);
+        RecyclerView eventList = (RecyclerView) findViewById(R.id.eventList);
         final EventAdapter adapter = new EventAdapter();
-        Events.setAdapter(adapter);
+        eventList.setAdapter(adapter);
         LinearLayoutManager eventsLayoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        Events.setLayoutManager(eventsLayoutManager);
+        eventList.setLayoutManager(eventsLayoutManager);
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.events_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.eventsMenu:
+                Intent intent = new Intent(this, AddEvent.class);
+                startActivity(intent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

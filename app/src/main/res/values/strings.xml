@@ -12,4 +12,6 @@
     <string name="eatingout_title">Eating Out</string>
     <string name="stay_here_title">Stay Here</string>
     <string name="title_activity_events_list">EventsListActivity</string>
+    <string name="title_activity_add_event">Add New Event</string>
+    <string name="title_activity_events">Events</string>
 </resources>

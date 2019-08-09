@@ -1,7 +1,6 @@
 package com.example.everythingsa;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,23 +19,24 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder>{
-
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
     ArrayList<Event> events;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
 
     public EventAdapter() {
-        FirebaseUtil.openFbReference("Events");
-        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
-        events = FirebaseUtil.mEvents;
+        Database.openDbReference("Events");
+        mFirebaseDatabase = Database.mFirebaseDatabase;
+        mDatabaseReference = Database.mDatabaseReference;
+        events = Database.esaEvents;
         mChildListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Event td = dataSnapshot.getValue(EventsClass.class);
-                Log.d("Event", td.getTitle());
+                Event td = dataSnapshot.getValue(Event.class);
+                Log.d("Event: ", td.getTitle());
+                td.setId(dataSnapshot.getKey());
+                events.add(td);
                 notifyItemInserted(events.size()-1);
             }
 
@@ -61,22 +61,28 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             }
         };
         mDatabaseReference.addChildEventListener(mChildListener);
+
     }
 
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        Context context = parent.getContext();
+        View itemView = LayoutInflater.from(context)
+                .inflate(R.layout.event_row, parent, false);
+        return new EventViewHolder(itemView);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-
+        Event event = events.get(position);
+        holder.bind(event);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return events.size();
     }
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
@@ -84,12 +90,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTitle = (TextView) itemView.findViewById(R.id.eventTitle);
+
         }
 
         public void bind(Event event) {
             eventTitle.setText(event.getTitle());
         }
     }
-
 
 }

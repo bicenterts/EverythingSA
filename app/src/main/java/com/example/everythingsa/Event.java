@@ -1,94 +1,59 @@
 package com.example.everythingsa;
 
-import android.content.Intent;
-import android.os.Bundle;
+public class Event {
+    private String id;
+    private String title;
+    private String description;
+    private String fee;
+    private String photo;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+    public Event() {}
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.Toast;
-
-public class Event extends AppCompatActivity {
-
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    EditText eventTitle;
-    EditText eventEntranceFee;
-    EditText eventDescription;
-    Event event;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
-
-        FirebaseUtil.openFbReference("Events");
-        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
-
-        eventTitle = (EditText) findViewById(R.id.Events);
-        eventDescription = (EditText) findViewById(R.id.eventDescription);
-        eventEntranceFee = (EditText) findViewById(R.id.eventEntranceFee);
-
-        Intent intent = getIntent();
-        Event event = (Event) intent.getSerializableExtra("Event");
-        if (event==null) {
-            event = new Event();
-        }
-        this.event = event;
-
-        eventTitle.setText(event.getTitle());
-        eventDescription.setText(event.getDescription());
-        eventEntranceFee.setText(event.getEntranceFee());
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    public Event(String title, String description, String fee, String photo) {
+        this.setId(id);
+        this.setTitle(title);
+        this.setDescription(description);
+        this.setFee(fee);
+        this.setPhoto(photo);
     }
 
-
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_menu:
-                saveEvent();
-                Toast.makeText(this, "Event Saved", Toast.LENGTH_LONG).show();
-                clean();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public String getId() {
+        return id;
     }
 
-    public void saveEvent() {
-        event.setTitle(eventTitle.getText().toString());
-        event.setDescription(eventDescription.getText().toString());
-        event.setEntranceFee(eventEntranceFee.getText().toString());
-
-        EventsClass event = new EventsClass(title, description, fee, "");
-        mDatabaseReference.push().setValue(event);
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void clean() {
-        eventTitle.setText("");
-        eventTitle.requestFocus();
-        eventDescription.setText("");
-        eventEntranceFee.setText("");
+    public String getTitle() {
+        return title;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.save_menu, menu);
-        return true;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
