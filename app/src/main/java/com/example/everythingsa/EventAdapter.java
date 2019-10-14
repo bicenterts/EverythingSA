@@ -1,6 +1,7 @@
 package com.example.everythingsa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,16 +86,34 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return events.size();
     }
 
-    public class EventViewHolder extends RecyclerView.ViewHolder {
+    public class EventViewHolder extends RecyclerView.ViewHolder
+        implements View.OnClickListener {
         TextView eventTitle;
+        TextView eventDescription;
+        TextView eventEntranceFee;
+
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTitle = (TextView) itemView.findViewById(R.id.eventTitle);
-
+            eventDescription = (TextView) itemView.findViewById(R.id.eventDescription);
+            eventEntranceFee = (TextView) itemView.findViewById(R.id.eventEntranceFee);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Event event) {
             eventTitle.setText(event.getTitle());
+            eventDescription.setText(event.getDescription());
+            eventEntranceFee.setText(event.getFee());
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Log.d("Click", String.valueOf(position));
+            Event selectedEvent = events.get(position);
+            Intent intent = new Intent(view.getContext(), ManageEvent.class);
+            intent.putExtra("Event", selectedEvent);
+            view.getContext().startActivity(intent);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.everythingsa;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,10 +16,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class AddEvent extends AppCompatActivity implements View.OnClickListener {
+public class ManageEvent extends AppCompatActivity implements View.OnClickListener {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private Button button;
+    Event event;
 
     EditText eventTitle;
     EditText eventDescription;
@@ -40,6 +42,15 @@ public class AddEvent extends AppCompatActivity implements View.OnClickListener 
         eventTitle = (EditText) findViewById(R.id.eventTitle);
         eventDescription = (EditText) findViewById(R.id.eventDescription);
         eventEntranceFee = (EditText) findViewById(R.id.eventEntranceFee);
+        Intent intent = getIntent();
+        Event event = (Event) intent.getSerializableExtra("Event");
+        if(event==null) {
+            event = new Event();
+        }
+        this.event = event;
+        eventTitle.setText(event.getTitle());
+        eventDescription.setText(event.getDescription());
+        eventEntranceFee.setText(event.getFee());
     }
 
 

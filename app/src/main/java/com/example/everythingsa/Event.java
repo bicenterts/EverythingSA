@@ -1,6 +1,8 @@
 package com.example.everythingsa;
 
-public class Event {
+import java.io.Serializable;
+
+public class Event implements Serializable {
     private String id;
     private String title;
     private String description;
